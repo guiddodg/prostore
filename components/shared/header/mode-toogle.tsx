@@ -1,5 +1,5 @@
 'use client';
-import {useState, useEffect, use} from 'react'; 
+import {useState, useEffect} from 'react'; 
 import { 
     DropdownMenu,
     DropdownMenuTrigger,
@@ -9,7 +9,7 @@ import {
     DropdownMenuCheckboxItem,
 } from '@/components/ui/dropdown-menu';
 import { useTheme } from 'next-themes';
-import { SunIcon,MoonIcon,SunMoon, Sun } from 'lucide-react';
+import { SunIcon,MoonIcon,SunMoon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const ModeToogle = () => {
