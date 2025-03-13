@@ -7,9 +7,10 @@ import CredentialsSignInForm from "./form";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-export const metada: Metadata ={
+export const metadata: Metadata ={
     title:"Sign In"
 };
+
 
 const SignInPage = async (props:{
     searchParams:Promise<{
