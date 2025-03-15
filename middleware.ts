@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 import authConfig from '@/auth.config';
 import NextAuth from 'next-auth';
 
 const {auth} = NextAuth(authConfig);
 
-export default auth((req: NextRequest) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default auth((req: any) => {
 
     if(req.cookies.get('sessionCartId')) return NextResponse.next();
 
