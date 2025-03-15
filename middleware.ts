@@ -26,25 +26,3 @@ export default auth((req: any) => {
     return response;
     
 });
-
-/*
-import { NextResponse } from "next/server";  
-
-export default async function handler(req) {  
-    if (req.cookies.get('sessionCartId')) return NextResponse.next();  
-
-    // Genera un UUID personalizado si es necesario en lugar de usar crypto  
-    const sessionCartId = (  
-        'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'  
-            .replace(/x/g, () => (Math.random() * 16 | 0).toString(16))  
-    ).toLowerCase();  
-
-    const response = NextResponse.next({  
-        request: {  
-            headers: new Headers(req.headers),  
-        },  
-    });  
-
-    response.cookies.set('sessionCartId', sessionCartId);  
-    return response;  
-}  
