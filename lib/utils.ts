@@ -32,3 +32,25 @@ export function formatErrors(error: any) {
   //other errors
   return typeof error.message === 'string' ? error.message : JSON.stringify(error);
 }
+
+//Round number to 2 decimal places
+export function round2(num: number | string) {
+  if (typeof num === 'string') {
+    num = parseFloat(num);
+  }
+  return Math.round(num * 100) / 100;
+}
+
+const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
+  currency: "USD",
+  style: "currency",
+  minimumFractionDigits: 2,
+});
+
+export function formatCurrency(number: number ) {
+  if (typeof number === 'number') {
+    return CURRENCY_FORMATTER.format(number);
+  }
+ 
+}
+
