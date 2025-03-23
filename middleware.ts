@@ -6,15 +6,31 @@ const {auth} = NextAuth(authConfig);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default auth((req: any) => {
+    // Este approch es muy cabeza, hay q hacer algo mejor
+    const protectedPaths = [
+        '/shipping-address',
+        '/payment-method',
+        '/place-order',
+        '/profile',
+        '/user/',
+        '/order/',
+        '/admin',
+    ];
+
+    //Get pathname from the req URL
+    const { nextUrl } = req;
+
+    const isAuthenticated = !!req.auth;
+    const isProtectedRoute = protectedPaths.some((path) => nextUrl.pathname.match(path));
+
+    //Check if the pathname is in the protectedPaths array
+    if (isProtectedRoute && !isAuthenticated){
+        return Response.redirect(new URL("/sign-in", nextUrl));
+    }
 
     if(req.cookies.get('sessionCartId')) return NextResponse.next();
 
-    // Genera un UUID personalizado si es necesario en lugar de usar crypto
-    const sessionCartId = (  
-        'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'  
-            .replace(/x/g, () => (Math.random() * 16 | 0).toString(16))  
-    ).toLowerCase();  
-   // const sessionCartId = crypto.randomUUID();
+    const sessionCartId = crypto.randomUUID();
     const newRequestHeader = new Headers(req.headers);
     
     const response = NextResponse.next( {
