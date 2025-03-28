@@ -51,6 +51,49 @@ export function formatCurrency(number: number ) {
   if (typeof number === 'number') {
     return CURRENCY_FORMATTER.format(number);
   }
- 
 }
+
+export function formatId(id: string) {
+  return `..${id.substring(id.length - 6)}`
+}
+
+export const formatDate = (dateString: Date) => {
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    month: "short",
+    weekday: "short",
+    year: "numeric",
+    day: "numeric",
+  }
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  const formattedDateTime: string = new Date(dateString).toLocaleString(
+    "en-US",
+    dateTimeOptions
+  );
+  const formattedDate: string = new Date(dateString).toLocaleString(
+    "en-US",
+    dateOptions
+  );
+  const formattedTime: string = new Date(dateString).toLocaleString(
+    "en-US",
+    timeOptions
+  );
+
+  return {
+    dateTime: formattedDateTime,
+    dateOnly: formattedDate,
+    timeOnly: formattedTime
+  }
+  }
 
