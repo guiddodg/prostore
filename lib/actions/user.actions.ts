@@ -1,6 +1,6 @@
 'use server';
 
-import { shippingAddressSchema, signInFromSChema, signUpFromSChema, paymentMethodSchema } from "../validator";
+import { shippingAddressSchema, signInFromSChema, signUpFromSChema, paymentMethodSchema, updateProfileSchema } from "../validator";
 import {auth, signIn, signOut} from '@/auth'
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { hashSync } from "bcrypt-ts-edge";
@@ -147,3 +147,30 @@ export async function updateUserPaymentMethod(data: z.infer<typeof paymentMethod
         }
     }
 }
+
+// Update user's profile
+export async function updateUserProfile(data: z.infer<typeof updateProfileSchema>) {
+    try{
+        const session = await auth();
+        const userId = await getUserById(session?.user?.id as string);
+        const profile = updateProfileSchema.parse(data)
+    
+        //email should not be updated
+        await prisma.user.update({
+            where: {id: userId.id},
+            data: {name: profile.name},
+        });
+        
+        return {
+            success: true,
+            message:`User's Profile updated successfully`	
+        }
+
+    }catch(error){
+        return {
+            success:false,
+            message:formatErrors(error)
+        }
+    }
+
+    }

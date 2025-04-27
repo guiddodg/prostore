@@ -20,8 +20,9 @@ export const metadata: Metadata = {
 const PlaceOrderPage = async () => {
     const cart = await getCart();
     if (!cart || cart.items.length === 0) redirect('/cart');
-
+    
     const session = await auth();
+    console.log(session);
     const userId = session?.user?.id;
 
     if(!userId) throw new Error('Login required');

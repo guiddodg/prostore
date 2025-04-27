@@ -1,8 +1,8 @@
-import NextAuth from 'next-auth'
+import NextAuth, { NextAuthConfig } from 'next-auth'
 import {PrismaAdapter} from '@auth/prisma-adapter'
 import {prisma} from '@/db/prisma';
-import type { NextAuthConfig } from 'next-auth';
 import authConfig from "@/auth.config";
+
 
 
 export const config ={
