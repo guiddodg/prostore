@@ -17,7 +17,10 @@ export const insertProductSchema = z.object({
     isFeatured: z.boolean(),
     banner: z.string().nullable(),
     price: currency
+})
 
+export const updateProductSchema =insertProductSchema.extend({
+    id: z.string().min(1, {message: 'Product Id is required'}),
 })
 
 // Schema for signing user in

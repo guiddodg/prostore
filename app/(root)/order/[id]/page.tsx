@@ -3,26 +3,33 @@ import { getOrderById } from "@/lib/actions/order.actions";
 import { notFound } from "next/navigation";
 import OrderDetailsTable from "./table";
 import { ShippingAddress } from "@/types";
-
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
-    title:"Order Details"
-}
+  title: "Order Details",
+};
 
 const OrderDetailsPage = async (props: { params: Promise<{ id: string }> }) => {
-    const { id } = await props.params;
+  const { id } = await props.params;
 
-    const order = await getOrderById(id);
+  const order = await getOrderById(id);
 
-    if(!order) return notFound();
+  if (!order) return notFound();
 
+  const session = await auth();
 
-    return <OrderDetailsTable order={{
+  return (
+    <OrderDetailsTable
+      order={{
         ...order,
-        shippingAddress: order.shippingAddress as ShippingAddress
-    }}
-    paypalClientId={process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string || "sb"}
-    />;
-}
- 
+        shippingAddress: order.shippingAddress as ShippingAddress,
+      }}
+      paypalClientId={
+        (process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string) || "sb"
+      }
+      isAdmin={session?.user?.role === "admin" || false}
+    />
+  );
+};
+
 export default OrderDetailsPage;
