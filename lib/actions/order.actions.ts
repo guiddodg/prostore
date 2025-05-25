@@ -287,16 +287,38 @@ export async function getOrderSummary(){
     return ;
 }
 
-export async function getOrders({limit = PAGE_SIZE,page}:{limit?: number;page: number;})  {
+export async function getOrders({
+    limit = PAGE_SIZE,
+    page,
+    query
+}:{
+    limit?: number;
+    page: number;
+    query?: string;
+}
+) {
+   const queryFilter:Prisma.OrderWhereInput = query && query !=='all'? {
+        user:{
+            name: {
+                contains: query,
+                mode: 'insensitive',
+            } as Prisma.StringFilter
+        }
+    } : {};
     const data = await prisma.order.findMany({
         orderBy: { createdAt: 'desc'},
         take:limit,
         skip: (page - 1) * limit ,
+        where: {
+            ...queryFilter,
+        },
         include: {
             user: {
                 select: {
                     name: true,
+
                 }
+                
             },
         },
     });
