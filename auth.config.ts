@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { compareSync } from "bcrypt-ts-edge";
 import { prisma } from "./db/prisma";
 import { cookies } from 'next/headers';
-import { getCookie,getCookies } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 
 
 export default {
